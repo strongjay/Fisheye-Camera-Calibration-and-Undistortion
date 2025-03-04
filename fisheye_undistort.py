@@ -77,14 +77,21 @@ class FisheyeUndistort:
 
         scaled_K = self.K * dim1[0] / DIM[0]
         scaled_K[2][2] = 1.0
-
+        P = np.zeros((3, 3), dtype=np.float32)
         new_K = cv2.fisheye.estimateNewCameraMatrixForUndistortRectify(scaled_K,
                                                                        self.D,
                                                                        dim2,
                                                                        np.eye(3),
-                                                                       balance=balance)
-
-        map1, map2 = cv2.fisheye.initUndistortRectifyMap(scaled_K, self.D, np.eye(3), new_K, dim3, cv2.CV_32F)
+                                                                       P,
+                                                                       balance=balance,
+                                                                       new_size=dim3,
+                                                                       fov_scale=1.0
+                                                                       )
+        
+        print("new K: ", new_K)
+        #new_K[0][2]*=balance
+        #print("new K: ", new_K)
+        map1, map2 = cv2.fisheye.initUndistortRectifyMap(scaled_K, self.D, np.eye(3), new_K, dim3,  cv2.CV_16SC2)
         if self.device == 'cuda':
             map1, map2 = list(map(cv2.cuda_GpuMat, (map1, map2)))
 
