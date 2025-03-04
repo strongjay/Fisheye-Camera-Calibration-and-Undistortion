@@ -3,7 +3,7 @@ import numpy as np
 from fisheye_calibrate import FisheyeCalibrate
 from fisheye_undistort import FisheyeUndistort
 
-calibrator = FisheyeCalibrate(checkerboard_size=(6, 8), images_dir=r'/home/work/AWorkSpace/Calibrate_tools/Fisheye_intrinsic/Fisheye-Camera-Calibration-and-Undistortion/imgs3', image_extension='jpg')  # TODO use your image_dir and checkerboard size
+calibrator = FisheyeCalibrate(checkerboard_size=(6, 8), images_dir=r'./imgs3', image_extension='jpg')  # TODO use your image_dir and checkerboard size
 
 # Calculate camera parameters
 K, D = calibrator.calculate_parameters()
